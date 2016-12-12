@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package sample_game.player;
+package circle_the_cat;
 
 import mctslib.mcts.Mcts;
-import sample_game.Say10;
-import sample_game.Say10Action;
 
 /**
- * Say10 player 
+ * CircleTheCat MCTS cat 
  * This player chooses an action using Monte Carlo tree search
  */
 public class MctsPlayer extends Player {
 
-	private Mcts<Say10Action> mcts;
+	private Mcts<CircleTheCatAction> mcts;
 	
 	public MctsPlayer() {
-		mcts = new Mcts<Say10Action>();
+		mcts = new Mcts<CircleTheCatAction>();
 		mcts.setTimeLimit(1000);
 		mcts.setExpandThreshold(2);
 		mcts.setVerbose(true);
@@ -37,7 +35,7 @@ public class MctsPlayer extends Player {
 	}
 	
 	@Override
-	public Say10Action getAction(Say10 state) {
+	public CircleTheCatAction getAction(CircleTheCat state) {
 		return mcts.getAction(state);
 	}
 

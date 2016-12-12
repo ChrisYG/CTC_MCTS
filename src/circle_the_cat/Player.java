@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package sample_game.player;
+package circle_the_cat;
 
-import sample_game.Say10;
-import sample_game.Say10Action;
 
 public abstract class Player {
-	public abstract Say10Action getAction(Say10 state);
+	public abstract CircleTheCatAction getAction(CircleTheCat state);
 }

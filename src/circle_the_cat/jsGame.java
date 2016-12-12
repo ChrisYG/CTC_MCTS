@@ -186,7 +186,7 @@ public class jsGame {
 		if (col < 0 || col > 8)
 			return 1;
 		return this.mapMatrix[row][col];
-		
+	
 	}
 	// 重载方法
 	private int getValue(MyPoint point) {

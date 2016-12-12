@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package sample_game.player;
+package circle_the_cat;
 
 import java.util.Random;
 
@@ -34,8 +34,9 @@ public class RandomPlayer extends Player {
 	}
 	
 	@Override
-	public Say10Action getAction(Say10 state) {
-		return new Say10Action(rand.nextInt(2) + 1);
+	// This is problematic! Need to randomize based on the cat's location.
+	public CircleTheCatAction getAction(CircleTheCat state) {
+		return new CircleTheCatAction(rand.nextInt(9),rand.nextInt(9));
 	}
 
 }

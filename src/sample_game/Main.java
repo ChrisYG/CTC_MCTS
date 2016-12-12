@@ -18,9 +18,9 @@ package sample_game;
 
 import java.util.Random;
 
-import sample_game.player.MctsPlayer;
-import sample_game.player.Player;
-import sample_game.player.RandomPlayer;
+import circle_the_cat.MctsPlayer;
+import circle_the_cat.Player;
+import circle_the_cat.RandomPlayer;
 
 public class Main {
 
