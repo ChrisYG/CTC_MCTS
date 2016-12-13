@@ -23,7 +23,7 @@ public class CircleTheCatAction extends Action {
 	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub
-		return 0;
+		return row*9+col;
 	}
 	public void set(int row, int col) {
 		if (row < 0 || row > 8 || col < 0 || col > 8) {
@@ -44,6 +44,6 @@ public class CircleTheCatAction extends Action {
 
 	@Override
 	public String toString() {
-		return "";
+		return "Move to (" + row + ", " + col + ")";
 	}
 }

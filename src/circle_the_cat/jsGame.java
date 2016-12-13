@@ -20,8 +20,8 @@ class MyPoint {
 		this.y = 0;
 	}
 	public void setValue(int x, int y) {
-		this.x = x - 1;
-		this.y = y - 1;
+		this.x = x;
+		this.y = y;
 	}
 	
 	@Override

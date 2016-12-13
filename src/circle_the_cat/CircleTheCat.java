@@ -15,7 +15,7 @@ import mctslib.game.State;
 
 public class CircleTheCat extends State<CircleTheCatAction> {
 	private int [][] state;
-	private MyPoint current; // initial position for cat (index range 1 ~ 9)
+	private MyPoint current; 
 	private int numBlocks; // initial number of blocks
 	private int turn; // 0 for human's turn and 1 for cat's turn
 	private int winner; // 0 for human, 1 for cat, -1 for non-available
@@ -60,23 +60,27 @@ public class CircleTheCat extends State<CircleTheCatAction> {
 	}
 	
 	private void setValue(int row, int col, int value) {
+		/**
 		if (row < 0 || row > 8)
 			return;
 		if (col < 0 || col > 8) 
 			return;
-		if (value != 0 || value != 1 || value != 8)
-			return;
-		// 设置为1，表示已经占领
+		if (value != 0 && value != 1 && value != 8)
+			return;**/
 		this.state[row][col] = value;
 	}
 
 	// Return 1 for illegal arguments
-	private int getValue(MyPoint point) {
+	public int getValue(MyPoint point) {
 		if (point.x < 0 || point.x > 8)
 			return 1;
 		if (point.y < 0 || point.y > 8)
 			return 1;
 		return this.state[point.x][point.y];
+	}
+	
+	public int[][] getState() {
+		return state;
 	}
 	
 	private void switchTurn() {
@@ -92,6 +96,7 @@ public class CircleTheCat extends State<CircleTheCatAction> {
 		return winner;
 	}
 	
+	
 	@Override
 	public String toString() {
 		return ""+state;
@@ -100,8 +105,11 @@ public class CircleTheCat extends State<CircleTheCatAction> {
 	@Override
 	public State<CircleTheCatAction> getDeepCopy() {
 		CircleTheCat copy = new CircleTheCat();
-		copy.state = state.clone(); // Deep copying the matrix?
-		copy.current = current;
+		for (int i = 0; i < state.length; i++) {
+			copy.state[i] = state[i].clone();
+		}
+		copy.current.x = current.x;
+		copy.current.y = current.y;
 		copy.turn = turn;
 		copy.winner = winner;
 		return copy;
@@ -113,6 +121,7 @@ public class CircleTheCat extends State<CircleTheCatAction> {
 			setValue(action.getRow(), action.getCol(), 1);
 		} else { // A cat's action
 			setValue(current.x, current.y, 0);
+			//System.out.println(action);
 			setValue(action.getRow(), action.getCol(), 8);
 			current.setValue(action.getRow(), action.getCol());
 		}
@@ -129,11 +138,11 @@ public class CircleTheCat extends State<CircleTheCatAction> {
 	 * */
 	private ArrayList<MyPoint> getNextStep(MyPoint point) {
 		ArrayList<MyPoint> nextStepList = new ArrayList<MyPoint>();
-		MyPoint[] nextstep = this.getNext6Step(point);
+		List<MyPoint> nextstep = this.getNext6Step(point);
 		
-		for (int i = 0; i < nextstep.length; i++) {
-			if (getValue(nextstep[i]) == 0)
-				nextStepList.add(nextstep[i]);
+		for (int i = 0; i < nextstep.size(); i++) {
+			if (getValue(nextstep.get(i)) == 0)
+				nextStepList.add(nextstep.get(i));
 		}
 		return nextStepList;
 	}
@@ -148,55 +157,68 @@ public class CircleTheCat extends State<CircleTheCatAction> {
 	 * @return
 	 * 
 	 * */
-	private MyPoint[] getNext6Step(MyPoint point) {
-		MyPoint[] array = new MyPoint[6];
+	private List<MyPoint> getNext6Step(MyPoint point) {
+		List<MyPoint> list = new ArrayList<MyPoint>();
+		int x = point.x; 
+		int y = point.y;
 		if (point.x % 2 == 0) {
 			// 奇数行
-			MyPoint point1 = new MyPoint(point.x-1, point.y-1);
-			array[0] = point1;
-			
-			MyPoint point2 = new MyPoint(point.x-1, point.y);
-			array[1] = point2;
+
+			if (x >= 1 && y >= 1) {
+				MyPoint point1 = new MyPoint(point.x-1, point.y-1);
+				list.add(point1);
+			}
+			if (x >= 1) {
+				MyPoint point2 = new MyPoint(point.x-1, point.y);
+				list.add(point2);
+			}
 			
 			MyPoint point3 = new MyPoint(point.x, point.y+1);
-			array[2] = point3;
+			list.add(point3);
 			
 			MyPoint point4 = new MyPoint(point.x+1, point.y);
-			array[3] = point4;
+			list.add(point4);
 			
-			MyPoint point5 = new MyPoint(point.x+1, point.y-1);
-			array[4] = point5;
-			
-			MyPoint point6 = new MyPoint(point.x, point.y-1);
-			array[5] = point6;
+			if (y >= 1) {
+				MyPoint point5 = new MyPoint(point.x+1, point.y-1);
+				list.add(point5);
+				MyPoint point6 = new MyPoint(point.x, point.y-1);
+				list.add(point6);
+			}
 		}
 		else {
 			// 偶数行
-			MyPoint point1 = new MyPoint(point.x-1, point.y);
-			array[0] = point1;
+			if (x >= 1) {
+				MyPoint point1 = new MyPoint(point.x-1, point.y);
+				list.add(point1);
+				MyPoint point2 = new MyPoint(point.x-1, point.y+1);
+				list.add(point2);
+			}
 			
-			MyPoint point2 = new MyPoint(point.x-1, point.y+1);
-			array[1] = point2;
+
 			
 			MyPoint point3 = new MyPoint(point.x, point.y+1);
-			array[2] = point3;
+			list.add(point3);
 			
 			MyPoint point4 = new MyPoint(point.x+1, point.y+1);
-			array[3] = point4;
+			list.add(point4);
 			
 			MyPoint point5 = new MyPoint(point.x+1, point.y);
-			array[4] = point5;
+			list.add(point5);
 			
-			MyPoint point6 = new MyPoint(point.x, point.y-1);
-			array[5] = point6;
+			if (y >= 1){ 
+				MyPoint point6 = new MyPoint(point.x, point.y-1);
+				list.add(point6);
+			}
+
 		}
-		return array;
+		return list;
 	}
 
 	@Override
 	public boolean isTerminal() {
 		// Cat at edge or cat surrounded by blocks
-		if (current.x == 1 || current.x == 9 || current.y == 1 || current.y == 9) return true;
+		if (current.x == 0 || current.y == 0 || current.x == 8 || current.y == 8) return true;
 		if (getNextStep(current).isEmpty()) return true;
 		else return false;
 	}
@@ -214,8 +236,12 @@ public class CircleTheCat extends State<CircleTheCatAction> {
 				}
 			}
 		} else {
+			//System.out.println("x: " + current.x + " y: " + current.y);
 			List<MyPoint> pts = getNextStep(current);
+			
 			for (int i = 0; i < pts.size(); i++) {
+				System.out.println(pts.size());
+				//11System.out.println("( " + pts.get(i).x + " ," + pts.get(i).y + ")");
 				actions.add(new CircleTheCatAction(pts.get(i).x, pts.get(i).y));
 			}
 		}

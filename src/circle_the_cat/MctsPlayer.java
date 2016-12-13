@@ -36,6 +36,7 @@ public class MctsPlayer extends Player {
 	
 	@Override
 	public CircleTheCatAction getAction(CircleTheCat state) {
+		//System.out.println(mcts.getAction(state));
 		return mcts.getAction(state);
 	}
 
